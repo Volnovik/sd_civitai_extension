@@ -151,8 +151,8 @@ def get_locon_dir():
         return get_lora_dir()
 
 def get_model_dir():
-    model_dir = shared.opts.data.get('civitai_folder_model', shared.cmd_opts.ckpt_dir)
-    if not model_dir: model_dir = shared.cmd_opts.ckpt_dir
+    model_dir = shared.opts.data.get('civitai_folder_model', shared.cmd_opts.ckpt_dirs)
+    if not model_dir: model_dir = shared.cmd_opts.ckpt_dirs
     if not model_dir: model_dir = sd_models.model_path
     return model_dir.strip()
 
@@ -209,14 +209,14 @@ def get_resources_in_folder(type, folder, exts=[], exts_exclude=[]):
     return resources
 
 resources = []
-def load_resource_list(types=['LORA', 'LoCon', 'Hypernetwork', 'TextualInversion', 'Checkpoint', 'VAE', 'Controlnet', 'Upscaler']):
+def load_resource_list(types=['LORA', 'LoCon', 'TextualInversion', 'Checkpoint', 'VAE', 'Controlnet', 'Upscaler']):
     global resources
 
     # If resources is empty and types is empty, load all types
     # This is a helper to be able to get the resource list without
     # having to worry about initialization. On subsequent calls, no work will be done
     if len(resources) == 0 and len(types) == 0:
-        types = ['LORA', 'LoCon', 'Hypernetwork', 'TextualInversion', 'Checkpoint', 'VAE', 'Controlnet', 'Upscaler']
+        types = ['LORA', 'LoCon', 'TextualInversion', 'Checkpoint', 'VAE', 'Controlnet', 'Upscaler']
 
     if 'LORA' in types:
         resources = [r for r in resources if r['type'] != 'LORA']
@@ -224,9 +224,7 @@ def load_resource_list(types=['LORA', 'LoCon', 'Hypernetwork', 'TextualInversion
     if 'LoCon' in types:
         resources = [r for r in resources if r['type'] != 'LoCon']
         resources += get_resources_in_folder('LoCon', get_locon_dir(), ['pt', 'safetensors', 'ckpt'])
-    if 'Hypernetwork' in types:
-        resources = [r for r in resources if r['type'] != 'Hypernetwork']
-        resources += get_resources_in_folder('Hypernetwork', shared.cmd_opts.hypernetwork_dir, ['pt', 'safetensors', 'ckpt'])
+
     if 'TextualInversion' in types:
         resources = [r for r in resources if r['type'] != 'TextualInversion']
         resources += get_resources_in_folder('TextualInversion', shared.cmd_opts.embeddings_dir, ['pt', 'bin', 'safetensors'])
