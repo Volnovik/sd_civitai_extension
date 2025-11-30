@@ -1,3 +1,11 @@
+# Updated extension to work with Forge Neo.
+- removed Hypernetworks (they are not used)
+- renamed ckpt_dir to ckpt_dirs
+
+If you already have original extension installed - you can simply swap \extensions\sd_civitai_extension\civitai\lib.py file
+
+
+
 # Civitai Extension for Automatic 1111 Stable Diffusion Web UI
 
 Manage and interact with your Automatic 1111 SD instance right from Civitai
